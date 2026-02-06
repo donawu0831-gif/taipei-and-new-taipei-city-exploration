@@ -1,0 +1,654 @@
+/* =====================
+   Reset & 基本設定
+===================== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-size: 18px;
+
+}
+
+body {
+  font-family: Arial, sans-serif;
+}
+
+h1 {
+  font-size: 40px;
+}
+
+h2 {
+  font-size: 35px;
+}
+
+h3 {
+  font-size: 25px;
+}
+
+ol, ul {
+  list-style: none;
+}
+
+/* =====================
+   Header 區
+===================== */
+.site-header {
+  position: fixed;    /* 固定定位 */
+  top: 0;             /* 頂端對齊 */
+  left: 0;            /* 左邊對齊 */
+  width: 100%;        /* 滿版寬度 */
+  z-index: 1000;      /* 確保在最上層 */
+  background-color: #C7B7A4;  /* 可保持背景色 */
+}
+
+/* 避免內容被導覽列遮住 */
+body {
+  padding-top: 120px; /* header 高度 + 一點間距 */
+}
+
+.header-inner {
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+
+/* Logo */
+.logo img {
+  height: 100px;
+  display: block;
+}
+
+/* =====================
+   導覽列 Toggle（手機）
+===================== */
+.nav-toggle {
+  display: none;
+  font-size: 1.5rem;
+  background: none;
+  border: none;
+  color: black;
+  cursor: pointer;
+}
+
+/* =====================
+   導覽列（桌機）
+===================== */
+
+.nav {
+  margin-left: auto;
+}
+
+.nav-list {
+  list-style: none;
+  display: flex;
+  width: 600px;
+}
+
+/* 主選單 li */
+.nav-list > li {
+  flex: 1;
+  text-align: center;
+  position: relative; /* ★ 下拉定位關鍵 */
+}
+
+/* 主選單連結 */
+.nav-list > li > a {
+  display: block;
+  padding: 10px 15px;
+  text-decoration: none;
+  color: black;
+}
+
+.nav-list > li > a:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+/* =====================
+   下拉子選單
+===================== */
+.submenu {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background-color: #8D5D36;
+  list-style: none;
+  min-width: 100%;
+  z-index: 1000;
+}
+
+/* 滑過主選單 → 顯示子選單 */
+.has-submenu:hover > .submenu {
+  display: block;
+}
+
+/* 第一層 submenu 往下展開 */
+.nav-list > li > .submenu {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background-color: #93AAC9;
+  min-width: 150px;
+  list-style: none;
+  padding: 0;
+  z-index: 1000;
+}
+
+/* 第二層 submenu 往右展開 */
+.submenu li.has-submenu > .submenu {
+  top: 0;
+  left: 100%;
+  display: none;
+  position: absolute;
+}
+
+/* 滑過第二層父項 → 顯示子選單 */
+.submenu li.has-submenu:hover > .submenu {
+  display: block;
+}
+
+/* 子選單項目 */
+.submenu li {
+  width: 100%;
+}
+
+.submenu li a {
+  display: block;
+  padding: 8px 12px;
+  text-decoration: none;
+  color: white;
+  font-size: 18px;
+}
+
+.submenu li a:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+/* 確保多層選單寬度合理，避免換行 */
+.submenu .submenu {
+  white-space: nowrap;
+  min-width: 180px;
+}
+
+li.has-submenu > a[href="#newtaipei"] + .submenu {
+  max-height: 400px;      /* 最大高度，可依需求調整 */
+  overflow-y: auto;       /* 超出部分出現滾動條 */
+  overflow-x: hidden;     /* 水平方向不出現滾動條 */
+  scrollbar-width: thin;  /* Firefox 滾動條細一點 */
+}
+
+/* 滾動條美化（Chrome/Edge/Safari） */
+li.has-submenu > a[href="#newtaipei"] + .submenu::-webkit-scrollbar {
+  width: 6px;
+}
+
+li.has-submenu > a[href="#newtaipei"] + .submenu::-webkit-scrollbar-thumb {
+  background-color: rgba(255, 255, 255, 0.3);
+  border-radius: 3px;
+}
+
+li.has-submenu > a[href="#newtaipei"] + .submenu::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* =====================
+   Main 主要內容
+===================== */
+main {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 40px 20px;
+}
+
+.top-section {
+  display: flex;
+  gap: 40px;
+  margin-bottom: 60px;
+}
+
+
+/* 介紹文字區 */
+.intro-box {
+  width: 50%;
+  height: 60%;
+  flex: 1;
+  background-color: #F2CEAE;
+  padding: 30px;
+  margin-top: 100px;
+  border-radius: 10px;
+  line-height: 1.8;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* 地圖區 */
+.map-box {
+  width: 2000px;
+  flex: 1;
+  overflow: hidden;
+  border-radius: 10px;
+}
+
+.map-box img {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+}
+
+.map-box img:hover {
+  transform: scale(1.02);
+  box-shadow: 0 12px 28px rgba(0,0,0,0.25);
+}
+
+/* 熱門排行整區 */
+.rank-section {
+  width: 90%;
+  max-width: 1200px;
+  margin: 80px auto;
+  text-align: center;
+}
+
+.section-title {
+  font-size: 28px;
+  margin-bottom: 40px;
+}
+
+/* 三個 block 容器 */
+.rank-container {
+  display: flex;
+  gap: 30px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+/* 單一卡片 */
+.rank-card {
+  background-color: #f4f4f4;
+  width: 320px;
+  border-radius: 15px;
+  overflow: hidden;
+  position: relative;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+  transition: transform 0.3s ease;
+}
+
+.rank-card:hover {
+  transform: translateY(-6px);
+}
+
+/* 排名徽章 */
+.rank-badge {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  background-color: #C7B7A4;
+  color: white;
+  font-size: 20px;
+  font-weight: bold;
+  width: 40px;
+  height: 40px;
+  line-height: 40px;
+  border-radius: 50%;
+}
+
+/* 圖片 */
+.rank-card img {
+  width: 100%;
+  height: 300px;
+  object-fit: cover;
+}
+
+/* 文字 */
+.rank-card h3 {
+  margin: 15px 0 5px;
+  font-size: 22px;
+}
+
+.rank-card p {
+  padding: 0 20px;
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+/* 連結按鈕 */
+.rank-link {
+  display: inline-block;
+  margin: 15px 0 25px;
+  padding: 8px 18px;
+  background-color: #93AAC9;
+  color: white;
+  text-decoration: none;
+  border-radius: 20px;
+  font-size: 15px;
+}
+
+.rank-link:hover {
+  background-color: #4D5E7D;
+}
+
+
+/* 行政區 */
+.district-content {
+  padding: 20px;
+  object-fit: cover;
+  background-color: #f5f5f5;
+  margin-bottom: 40px;
+  margin: 20px 0;
+  border-radius: 10px;
+}
+
+.photo-row {
+  display: flex;                /* 橫向排列 */
+  gap: 20px;                    /* 圖片間距 */
+  justify-content: flex-start;      /* 置中排列 */
+  margin: 30px 0;
+  overflow-x: auto;        /* 啟用橫向滑動 */
+  overflow-y: hidden;
+  padding: 20px 0;
+  scroll-behavior: smooth; /* 滑動平滑 */
+}
+.image {
+  width: 300px;       /* 統一寬度 */
+  height: 220px;      /* 統一高度 */
+  object-fit: cover;  /* 關鍵：直橫圖都不變形 */
+  border-radius: 10px;
+  box-shadow: 0 6px 15px rgba(0,0,0,0.15);
+  transition: transform 0.3s ease;
+}
+
+.image:hover {
+  transform: scale(1.02);
+  box-shadow: 0 12px 28px rgba(0,0,0,0.25);
+}
+
+/* =====================
+   footer
+===================== */
+
+.site-footer {
+  background-color: #C7B7A4; /* 與 header 顏色統一 */
+  color: white;
+  padding: 20px 40px;
+  position: relative;  /* 如果想要固定在底部可以改成 fixed */
+  bottom: 0;
+  width: 100%;
+}
+
+.footer-inner {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap; /* 手機響應式 */
+  align-items: center;
+}
+
+.footer-left p {
+  margin: 5px 0;
+}
+
+.footer-left a {
+  color: white;
+  text-decoration: underline;
+}
+
+/* footer-right 圖片排版 */
+.footer-right a {
+  display: inline-block;
+  margin-left: 15px;
+  transition: transform 0.3s, opacity 0.3s;
+}
+
+.footer-right a img {
+  width: 30px;       /* 圖片統一大小 */
+  height: 30px;
+  object-fit: contain;
+  vertical-align: middle;
+}
+
+/* 滑鼠滑過效果 */
+.footer-right a:hover img {
+  transform: scale(1.2);  /* 放大 */
+  opacity: 0.8;           /* 半透明效果 */
+}
+
+/* 手機響應式 */
+@media (max-width: 768px) {
+  .footer-inner {
+    flex-direction: column;
+    text-align: center;
+  }
+  .footer-right {
+    margin-top: 10px;
+  }
+  .footer-right a {
+    margin: 0 10px; /* 手機左右間距 */
+  }
+}
+
+/* =====================
+  表格
+===================== */
+.locked-districts {
+  width: 90%;
+  max-width: 800px;
+  margin: 30px auto;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 20px;
+  background-color: #F2F2EB;
+}
+
+.locked-districts h2 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.district-label {
+  display: block;
+  border-bottom: 1px solid #ccc;
+  padding: 10px;
+  cursor: pointer;
+  position: relative;
+  user-select: none;
+}
+
+.district-label input {
+  display: none; /* 隱藏 checkbox */
+}
+
+.district-label span {
+  font-weight: bold;
+  display: block;
+}
+
+.district-info {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.4s ease, padding 0.4s ease;
+  padding: 0 0;
+  font-size: 16px;
+  color: #333;
+}
+
+.district-label input:checked + span + .district-info {
+  max-height: 200px; /* 可依內容調整 */
+  padding: 10px 0;
+}
+
+/* =====================
+  自然景觀排行
+===================== */
+.top-nature {
+  width: 90%;
+  max-width: 1200px;
+  margin: 10px auto;
+  text-align: center;
+}
+
+.top-nature h2 {
+  margin-bottom: 30px;
+  font-size: 28px;
+}
+
+.blocks-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+}
+
+.nature-block {
+  flex: 1 1 30%; /* 每個區塊約 30% 寬度，可依需求調整 */
+  max-width: 350px;
+  background-color: #f0f0f0;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+  transition: transform 0.3s ease;
+}
+
+.nature-block:hover {
+  transform: translateY(-5px);
+}
+
+.nature-block img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+
+.nature-block h3 {
+  margin: 10px 0;
+  font-size: 20px;
+}
+
+.nature-block p {
+  padding: 0 15px 15px 15px;
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+.nature-block .rank {
+  position: absolute;
+  background-color: rgba(255, 165, 0, 0.9);
+  color: white;
+  font-weight: bold;
+  padding: 5px 12px;
+  border-radius: 50%;
+  top: 10px;
+  left: 10px;
+  font-size: 18px;
+}
+
+
+
+/* =====================
+   RWD（手機）
+===================== */
+@media (max-width: 768px) {
+
+  .nav-toggle {
+    display: block;
+    margin-left: auto;
+    margin-right: 20px;
+  }
+
+  .nav {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: #C7B7A4;
+    width: 100%;
+    display: none;
+  }
+
+  .nav.show {
+    display: block;
+  }
+
+  .nav-list {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .nav-list > li {
+    width: 100%;
+  }
+
+  /* 手機版先取消 hover 下拉（避免誤觸） */
+  .submenu {
+    position: static;
+    display: none;
+  }
+
+  .has-submenu:hover .submenu {
+    display: none;
+  }
+
+  main {
+    flex-direction: column;
+  }
+
+  .intro-box,
+  .map-box {
+    width: 100%;
+  }
+
+
+
+  .top-section {
+    flex-direction: column;
+  }
+
+  .map-box {
+    width: 100%;
+  }
+
+  .intro-box {
+    margin-top: 20px;
+  }
+
+  .image {
+    flex-shrink: 0;
+  }
+
+  .rank-card {
+    width: 100%;
+    max-width: 340px;
+  }
+
+  .nature-block {
+    flex: 1 1 100%;
+    max-width: 100%;
+  }
+
+
+}
+
+/* =====================
+   手機導覽 UX 強化
+===================== */
+@media (max-width: 768px) {
+
+  /* 有子選單的項目顯示箭頭 */
+  .has-submenu > a::after {
+    content: ' ▸';
+    float: right;
+    font-size: 14px;
+    opacity: 0.8;
+  }
+
+  /* 展開中的 submenu 顯示 */
+  .submenu.show {
+    display: block;
+  }
+
+  /* 子選單縮排，顯示層級感 */
+  .submenu {
+    padding-left: 16px;
+  }
+
+  /* 第二層再多一點縮排 */
+  .submenu .submenu {
+    padding-left: 20px;
+  }
+}
