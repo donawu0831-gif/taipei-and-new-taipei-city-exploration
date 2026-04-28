@@ -651,4 +651,12 @@ main {
   .submenu .submenu {
     padding-left: 20px;
   }
+
+   /* 確保 JS 切換時能強制顯示 */
+  .nav.show {
+    display: block !important;
+  }
+  .submenu.show {
+    display: block !important;
+  }
 }
