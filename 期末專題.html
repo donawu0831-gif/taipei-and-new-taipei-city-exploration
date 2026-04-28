@@ -150,41 +150,50 @@
 document.addEventListener('DOMContentLoaded', () => {
   const toggleBtn = document.querySelector('.nav-toggle');
   const nav = document.querySelector('.nav');
-  const submenuParents = document.querySelectorAll('.has-submenu > a');
-  const navLinks = document.querySelectorAll('.nav a');
 
-  /* 漢堡選單開關（含狀態提示） */
-  toggleBtn.addEventListener('click', () => {
+  // 1. 漢堡選單開關
+  toggleBtn.addEventListener('click', (e) => {
+    e.stopPropagation(); // 防止事件冒泡
     const isOpen = nav.classList.toggle('show');
     toggleBtn.textContent = isOpen ? '✕' : '☰';
-    toggleBtn.setAttribute('aria-expanded', isOpen);
   });
 
-  /* 手機版：點擊父選單展開子選單 */
-  submenuParents.forEach(link => {
-    link.addEventListener('click', e => {
-      if (window.innerWidth <= 768) {
-        const submenu = link.nextElementSibling;
-        if (submenu && submenu.classList.contains('submenu')) {
-          e.preventDefault(); // 阻止跳轉
-          submenu.classList.toggle('show');
+  // 2. 處理所有選單內的連結點擊
+  nav.addEventListener('click', (e) => {
+    const target = e.target.closest('a'); // 確保點到的是連結
+    if (!target) return;
+
+    const submenu = target.nextElementSibling;
+    const hasSubmenu = submenu && submenu.classList.contains('submenu');
+
+    if (window.innerWidth <= 768) {
+      if (hasSubmenu) {
+        // --- 情況 A：點擊有子選單的標籤 ---
+        // 如果子選單還沒打開，就打開它，並阻止跳轉
+        if (!submenu.classList.contains('show')) {
+          e.preventDefault();
+          submenu.classList.add('show');
         }
+        // 如果已經打開了，再次點擊就會執行跳轉 (href)
+      } else {
+        // --- 情況 B：點擊最終末端連結 (沒有子選單了) ---
+        // 允許跳轉，但延遲關閉選單，才不會讓畫面瞬間閃掉
+        setTimeout(() => {
+          nav.classList.remove('show');
+          toggleBtn.textContent = '☰';
+          document.querySelectorAll('.submenu.show').forEach(s => s.classList.remove('show'));
+        }, 300);
       }
-    });
+    }
   });
 
-  /* 點擊最終連結 → 關閉所有選單 */
-  navLinks.forEach(link => {
-    link.addEventListener('click', () => {
-      if (window.innerWidth <= 768) {
-        nav.classList.remove('show');
-        toggleBtn.textContent = '☰';
-        toggleBtn.setAttribute('aria-expanded', false);
-        document
-          .querySelectorAll('.submenu.show')
-          .forEach(sub => sub.classList.remove('show'));
-      }
-    });
+  // 點擊選單以外的地方自動收合 (增加 UX)
+  document.addEventListener('click', (e) => {
+    if (!nav.contains(e.target) && !toggleBtn.contains(e.target)) {
+      nav.classList.remove('show');
+      toggleBtn.textContent = '☰';
+      document.querySelectorAll('.submenu.show').forEach(s => s.classList.remove('show'));
+    }
   });
 });
 </script>
