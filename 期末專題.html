@@ -152,44 +152,42 @@ document.addEventListener('DOMContentLoaded', () => {
   const nav = document.querySelector('.nav');
 
   // 1. 漢堡選單開關
-  toggleBtn.addEventListener('click', (e) => {
-    e.stopPropagation(); // 防止事件冒泡
-    const isOpen = nav.classList.toggle('show');
-    toggleBtn.textContent = isOpen ? '✕' : '☰';
-  });
+  if (toggleBtn) {
+    toggleBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      nav.classList.toggle('show');
+      toggleBtn.textContent = nav.classList.contains('show') ? '✕' : '☰';
+    });
+  }
 
-  // 2. 處理所有選單內的連結點擊
-  nav.addEventListener('click', (e) => {
-    const target = e.target.closest('a'); // 確保點到的是連結
-    if (!target) return;
-
-    const submenu = target.nextElementSibling;
-    const hasSubmenu = submenu && submenu.classList.contains('submenu');
-
-    if (window.innerWidth <= 768) {
-      if (hasSubmenu) {
-        // --- 情況 A：點擊有子選單的標籤 ---
-        // 如果子選單還沒打開，就打開它，並阻止跳轉
-        if (!submenu.classList.contains('show')) {
+  // 2. 處理子選單
+  const submenuParents = document.querySelectorAll('.has-submenu > a');
+  submenuParents.forEach(link => {
+    link.addEventListener('click', function(e) {
+      if (window.innerWidth <= 768) {
+        const submenu = this.nextElementSibling;
+        
+        // 如果子選單還沒顯示，阻止跳轉並顯示它
+        if (submenu && !submenu.classList.contains('show')) {
           e.preventDefault();
+          e.stopPropagation();
+          
+          // 先關掉其他同層已打開的子選單 (避免重疊)
+          const allSubmenus = document.querySelectorAll('.submenu');
+          allSubmenus.forEach(s => s.classList.remove('show'));
+          
           submenu.classList.add('show');
-        }
-        // 如果已經打開了，再次點擊就會執行跳轉 (href)
-      } else {
-        // --- 情況 B：點擊最終末端連結 (沒有子選單了) ---
-        // 允許跳轉，但延遲關閉選單，才不會讓畫面瞬間閃掉
-        setTimeout(() => {
-          nav.classList.remove('show');
-          toggleBtn.textContent = '☰';
-          document.querySelectorAll('.submenu.show').forEach(s => s.classList.remove('show'));
-        }, 300);
+          console.log("子選單已展開");
+        } 
+        // 如果已經是 .show 狀態，再次點擊就會執行 href 跳轉
       }
-    }
+    });
   });
 
-  // 點擊選單以外的地方自動收合 (增加 UX)
+  // 3. 點擊空白處關閉
   document.addEventListener('click', (e) => {
-    if (!nav.contains(e.target) && !toggleBtn.contains(e.target)) {
+    if (nav.classList.contains('show') && !nav.contains(e.target) && e.target !== toggleBtn) {
       nav.classList.remove('show');
       toggleBtn.textContent = '☰';
       document.querySelectorAll('.submenu.show').forEach(s => s.classList.remove('show'));
